@@ -1,0 +1,18 @@
+package com.penpick.kakao.dto;
+
+//React에서 전송한 Kakao 로그인 정보를 담는 DTO(Data Transfer Object) 클래스
+public class KakaoLoginData {
+
+    private String accessToken;
+    private String profile;
+
+    // 생성자, getter, setter 등을 추가합니다.
+
+    @Override
+    public String toString() {
+        return "KakaoLoginData{" +
+                "accessToken='" + accessToken + '\'' +
+                ", profile='" + profile + '\'' +
+                '}';
+    }
+}

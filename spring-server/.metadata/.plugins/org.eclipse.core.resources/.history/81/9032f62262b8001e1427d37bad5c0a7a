@@ -1,0 +1,11 @@
+package com.penpick.kakao.dto;
+
+import lombok.Data;
+
+//React에서 전송한 Kakao 로그인 정보를 담는 DTO(Data Transfer Object) 클래스
+@Data
+public class KakaoLoginData {
+    private String accessToken;
+    private ProfileData profile;
+
+}

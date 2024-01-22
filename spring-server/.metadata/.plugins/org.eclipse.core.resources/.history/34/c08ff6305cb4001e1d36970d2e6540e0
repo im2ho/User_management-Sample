@@ -1,0 +1,19 @@
+
+##
+server.port=8080
+
+##DB
+spring.datasource.url= jdbc:oracle:thin:@//localhost:1521/xe
+spring.datasource.username = carrot
+spring.datasource.password = carrot
+spring.datasource.driver-class-name= oracle.jdbc.OracleDriver
+
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=create
+
+spring.security.user.name=root
+spring.security.user.password=root
+spring.security.user.roles=ADMIN

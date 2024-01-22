@@ -1,0 +1,30 @@
+
+##Sever Port
+server.port=8080
+
+##DB
+spring.datasource.url= jdbc:oracle:thin:@//localhost:1521/XE
+spring.datasource.username = carrot
+spring.datasource.password = carrot
+spring.datasource.driver-class-name= oracle.jdbc.OracleDriver
+
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+spring.security.user.name=root
+spring.security.user.password=root
+spring.security.user.roles=ADMIN
+
+## Email
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+#spring.mail.port=465
+spring.mail.username=tpgml0816@gmail.com
+spring.mail.password=08160228
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.timeout=50000
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.protocol=smtps

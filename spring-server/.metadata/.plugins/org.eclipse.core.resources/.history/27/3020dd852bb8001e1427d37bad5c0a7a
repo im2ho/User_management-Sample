@@ -1,0 +1,5 @@
+package com.penpick.kakao.model;
+
+public class KakaoUser {
+
+}

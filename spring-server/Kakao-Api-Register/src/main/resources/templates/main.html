@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>홈페이지</title>
+	</head>
+	<body>
+		<h2>홈페이지</h2>
+		<div th:if="${loggedInUser}">
+			<p th:text=" '닉네임:' + ${loggedInUser.nickname} " />
+			<p th:text=" '이메일:' + ${loggedInUser.email} " />
+			<p th:text=" '이름:' + ${loggedInUser.name} " />
+			<p th:text=" '생일:' + ${loggedInUser.birthdate} " />
+		</div>
+	</body>
+</html>

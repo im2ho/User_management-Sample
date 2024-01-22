@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title>카카오톡 회원가입</title>
+	</head>
+	<body>
+		<h2>카카오톡으로 회원가입</h2>
+		<form action="/kakao/register" method="post">
+			
+			<label>이메일 : </label>
+			<input type="text" id="email" name="email" th:value="${kakaoInfo.email}" readonly/><br />
+			
+			<label>별명 : </label>
+			<input type="text" id="nickname" name="nickname" th:value="${kakaoInfo.nickname}" readonly/><br />
+			
+			<label>이름 : </label><!--직접 적어주는 부분-->
+			<input type="text" id="name" name="name"/><br />
+			
+			<label>생년월일 : </label>
+			<input type="text" id="birthdate" name="birthdate"/><br />
+			
+			<button type="submit">가입</button>
+		</form>
+	</body>
+</html>

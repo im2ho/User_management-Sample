@@ -1,0 +1,24 @@
+server.port=8080
+
+## DB 연결
+spring.datasource.url=jdbc:oracle:thin:@//localhost:1521/XE
+spring.datasource.username= react
+spring.datasource.password= react
+
+spring.datasource.driver-class-name= oracle.jdbc.OracleDriver
+
+spring.jpa.show-sql= true
+spring.jpa.hibernate.ddl-auto= update
+
+spring.thymeleaf.prefix= classpath:templates/
+spring.thymeleaf.suffix= .html
+spring.thymeleaf.cache= false
+spring.mvc.static-path-pattern=/static/**
+
+spring.devtools.livereload.enabled=true
+
+##카카오 로그인 설정
+kakao.client.id= 59265e6d544d701917fb7771cd186b02
+kakao.client.secret= gZqkUvchqgShsBNFIVvDm5duF5eb252BgZqkUvchqgShsBNFIVvDm5duF5eb252B
+##redirect == callback (로그인이 됐을 때 이동할 공간)
+kakao.redirect.url= http://localhost:8080/kakao/callback

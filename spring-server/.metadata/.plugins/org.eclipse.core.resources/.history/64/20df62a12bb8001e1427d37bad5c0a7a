@@ -1,0 +1,5 @@
+package com.penpick.kakao.dto;
+
+public class KakaoDTO {
+
+}

@@ -1,0 +1,39 @@
+package com.penpick.users.controller;
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.penpick.users.service.MailService;
+
+import lombok.RequiredArgsConstructor;
+
+@Controller
+@RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:3000", allowCredentials = "true")
+public class MailController {
+
+    private final MailService mailService;
+    private final JavaMailSender javaMailSender;
+   
+    @GetMapping("/")
+    public String MailPage(){
+    	return "Main";
+    }
+
+    @ResponseBody
+    @PostMapping("/mail")
+    public String MailSend(String mail){
+    	
+    	// MailService 객체 생성
+    	MailService mailService = new MailService(javaMailSender);
+         
+    	int number = mailService.sendMail(mail);
+    	String num = "" + number;
+    	return num;
+    }
+
+}

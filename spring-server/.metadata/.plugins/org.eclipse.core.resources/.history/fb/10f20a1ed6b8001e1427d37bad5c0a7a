@@ -1,0 +1,5 @@
+package com.penpick.kakao.service;
+
+public class KakaoLoginService {
+
+}

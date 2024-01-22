@@ -1,0 +1,11 @@
+package com.penpick.kakao.dto;
+
+import lombok.Data;
+
+@Data
+public class ProfileData {
+	
+    private String nickname;
+    private String email;
+
+}

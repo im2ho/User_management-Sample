@@ -1,0 +1,40 @@
+
+##Sever Port
+server.port=8080
+
+##DB
+spring.datasource.url= jdbc:oracle:thin:@//localhost:1521/XE
+spring.datasource.username = carrot
+spring.datasource.password = carrot
+spring.datasource.driver-class-name= oracle.jdbc.OracleDriver
+
+spring.thymeleaf.prefix=classpath:/templates/
+spring.thymeleaf.suffix=.html
+
+spring.jpa.show-sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+spring.security.user.name=root
+spring.security.user.password=root
+spring.security.user.roles=ADMIN
+
+## Email
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+#spring.mail.port=465
+spring.mail.username=tpgml0816@gmail.com
+#발급받은 앱 비밀번호
+spring.mail.password=eddo vqum ykuo mbxa
+
+## Email - Option
+spring.mail.properties.mail.debug = true
+spring.mail.properties.mail.smtp.timeout=50000
+spring.mail.properties.mail.smtp.starttls.enable=true
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.protocol=smtps
+
+##카카오 로그인 설정
+kakao.client.id= d4cc862a19d124cd0ae05ea78178ce20
+kakao.client.secret= gZqkUvchqgShsBNFIVvDm5duF5eb252BgZqkUvchqgShsBNFIVvDm5duF5eb252B
+##redirect == callback (로그인이 됐을 때 이동할 공간)
+kakao.redirect.url= http://localhost:8080/kakao/callback
