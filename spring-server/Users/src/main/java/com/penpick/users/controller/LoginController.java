@@ -26,6 +26,7 @@ public class LoginController {
 	@Autowired
     private UserService userService;
 	
+	//로그인 & 로그인한 유저 정보(userEmail) 세션에 저장하기
 	@PostMapping("/login")
 	public ResponseEntity<String> login(@RequestBody Users credentials, HttpSession session) {
 		
@@ -44,6 +45,7 @@ public class LoginController {
 		
 	}
 	
+	//로그인한 유저 정보 세션에서 불러오기
 	@ResponseBody
 	@GetMapping("/userdata")
     public ResponseEntity<Users> getUserData(HttpSession session) {
@@ -62,6 +64,7 @@ public class LoginController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 	
+	//로그아웃
 	@GetMapping("/logout")
 	public ResponseEntity<String> logout(HttpSession session) {
 		session.invalidate();

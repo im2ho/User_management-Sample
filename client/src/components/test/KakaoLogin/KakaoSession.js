@@ -5,7 +5,7 @@ const SessionInfo = () => {
   //const [sessionData, setSessionData] = useState(null);
   const [userEmail, setUserEmail] = useState('');
 
-  //카카오 로그인 사용자 정보 받아오기
+  // 세션에 저장한 카카오 로그인 사용자 정보 받아오기
     useEffect(() => {
         const fetchKakaoUserData = async () => {
             try {
@@ -19,7 +19,7 @@ const SessionInfo = () => {
         };
 
         fetchKakaoUserData();
-    }, []); // 빈 배열 추가
+    }, []);
 
   return (
     <div>

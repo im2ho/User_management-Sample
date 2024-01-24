@@ -1,41 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import axios from 'axios';
+// AuthProvider와 useAuth 추가
+import { AuthProvider, useAuth } from './AuthContext';
 import User from './UserList';
 import SignUp from './SignUp';
 import Login from './Login';
-//import Kakao from './KakaoLogin';
-
+import KakaoLoginPage from './KakaoLoginPage';
+import MyPage from './MyPage';
 
 function App() {
-  const [userEmail, setUserEmail] = useState('');
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  return (
+    // AppContent : AuthProvider의 children
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await axios.get('http://localhost:8080/userdata', {
-          withCredentials: true,
-        });
-        setUserEmail(res.data.userEmail);
-        setAuthentication(res.data.userEmail);
-      } catch (err) {
-        console.error('세션 데이터 불러오기 실패', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchUserData();
-  }, []);
+const AppContent = () => {
+  // useAuth 훅으로 컨텍스트 값 가져오기 (state)
+  const { userEmail, isAuthenticated, isLoading } = useAuth();
 
-  const setAuthentication = (userEmail) => {
-    if (userEmail !== '') {
-      setIsAuthenticated(true);
-    }
-  };
-
-  // 초기 로딩 중에는 아무것도 반환X
+  // 초기 로딩 중에는 아무것도 반환하지 않음
   if (isLoading) {
     return null;
   }
@@ -44,25 +30,31 @@ function App() {
   return (
     <Router>
       <Link to="/">Main</Link>
-      {isAuthenticated ? (
-        null
-      ) : <>
-      <Link to="/signup">SignUp</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/kakao/login">KakaoLogin</Link>
-    </>}
+      {/* 로그인 정보가 존재하면 회원가입, 로그인 링크 가리기 */}
+      {isAuthenticated ? 
+        <Link to="/myPage">MyPage</Link> : (
+        <>
+          <Link to="/signup">SignUp</Link>
+          <Link to="/login">Login</Link>
+          <Link to="/kakao/login">KakaoLogin</Link>
+        </>
+      )}
       <h1>React & SpringBoot로 회원관리</h1>
+      <p>현재 로그인 회원 : {userEmail}</p>
       <Routes>
         <Route path="/" element={<User />} />
+        <Route path="/myPage" element={<MyPage />} />
+        {/* 로그아웃 상태일 때 렌더링 되는 컴포넌트들 */}
         {!isAuthenticated && (
           <>
             <Route path="/signup" element={<SignUp />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/kakao/login" element={<KakaoLoginPage />} />
           </>
         )}
       </Routes>
     </Router>
   );
-}
+};
 
 export default App;

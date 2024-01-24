@@ -19,15 +19,19 @@ const KakaoApp = () => {
                 'Content-Type': 'application/json',
             },
         })
-        .then(response => {
-            const { email, nickname } = response.data.kakao_account;
+        .then(userInfoResponse => {
+            const { email, nickname } = userInfoResponse.data.kakao_account;
             
             // 서버로 access_token 전송
             axios.post('http://localhost:8080/api/kakao-login', {
-                code: access_token,
+                access_token : access_token,
+                email: email,
+                nickname: nickname,
+            }, {
+                withCredentials:true
             })
-            .then(response => {
-                console.log(response.data);
+            .then(serverResponse => {
+                console.log(serverResponse.data);
                 window.location.href="/kakaoInfo";
             })
             .catch(error => {
@@ -46,6 +50,7 @@ const KakaoApp = () => {
     return(
         <div>
             <KakaoLogin 
+                //JS RESTApi key
                 token="e37a82e7e5d11141f3bac76816aec5e7"
                 onSuccess={kakaoLoginSuccess}
                 onFailure={kakaoLoginFailure}

@@ -19,4 +19,8 @@ public class Users {
     private String userEmail;
 	
     private String password;
+    
+    private String nickname;
+    
+    private String access_token;
 }

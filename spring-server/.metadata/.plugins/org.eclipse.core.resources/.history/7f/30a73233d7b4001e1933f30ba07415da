@@ -1,5 +1,0 @@
-package com.penpick.config;
-
-public class CorsFilter {
-
-}

@@ -1,87 +1,196 @@
-import React, {useState, useEffect} from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import AddFreshItem from './AddFreshItem';
 
-const RegistrationForm = () => {
+function PenpickFresh() {
+    const [freshitems, setfreshitems] = useState([]);
+    const [newFreshItem, setNewFreshItem] = useState({
+        item_num : '',
+        item_name : '',
+        item_price : '',
+    });
 
-    const[data, setData] = useState([]);
-    const[newUser, setNewUser] = useState({userEmail:'', password:''});
+    const [cartItems, setcartitems] = useState([]);
+    const [newCartItem, setNewCartItem] = useState({
+        fresh_cartitem_num : '',
+        item_count : '',
+        item_num : '',
+        res_num : '',
+    });
 
-    useEffect(()=>{
-        const fetchData = async() => {
-            try{
-                const res = await axios.get("http://localhost:8080/api/user",{
-                    withCredentials:true,
-                });
-                setData(res.data);
-            } catch(error) {
-                console.log(error);
+    useEffect(() => {
+        const fetchData = async () => {
+        try{
+            const regCart = await axios.get("http://localhost:8282/freshCart/list");
+            setcartitems(regCart.data);
+        } catch (error) {
+            console.log('데이터를 불러오지 못했습니다.', error)
+        } 
+    };
+    fetchData();
+    },[]);
+
+   
+
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8282/productItem/list');
+                setfreshitems(response.data);
+            } catch (error) {
+                console.log('데이터를 불러오지 못했습니다.', error)
             }
         };
         fetchData();
     },[]);
 
-    //데이터를 input에서 작성한 내용으로 변경하는 함수
-    const handleInputChange = (e) => {
+    const carthandleInputChange = (e) => {
         const {name, value} = e.target;
-        setNewUser((prevUser) => ({...prevUser, [name]:value}));
+        setNewCartItem((prevCartitem) => ({...prevCartitem, [name] : value}));
     };
 
-    /*
-        const {name, value} = e.target;
-        setNewUser((prevUser) => ({...prevUser, [name] : value}));
+    const handleAddCartItem = async () => {
+        
+        try {
+            const response = await axios.post('http://localhost:8282/freshCart/add',
+            newCartItem,{
+                withCredentials: true
+            });
+            console.log('4');
+            console.log('서버 응답:', response);
 
-        위에서 작성한 name과 value는 input 태그의 속성을 의미
-        name에서 username은 http://localhost:8080/api/user의 json으로 참조된 값으로 변경 불가
-    */
+            setcartitems((prevCartitem) => [...prevCartitem, response.data]);
+            setNewCartItem({
+                fresh_cartitem_num : '',
+                item_count : '',
+                item_num : '',
+                res_num : ''
+            });
 
-    //저장 버튼 함수
-    const handleAddUser = async () => {
-        try{
-            const response = await axios.post(
-                'http://localhost:8080/api/user/add',
-                newUser, {
-                    withCredentials:true,
-                }
-            );
-            //변경된 데이터 값 저장
-            setData((prevUsers) => [...prevUsers, response.data]);
-            //데이터 저장 후 빈값으로 초기화
-            setNewUser({userEmail:'', password:''});
-            alert("회원가입 완료");
-            window.location.href="http://localhost:3000/";
-        } catch(error){
-            console.error('데이터 저장오류',error);
+        } catch (error) {
+            console.error('error',error);
         }
     };
 
 
-    return (
-        <div>
-            <h2>회원 가입</h2>
-            <div>
-                <input 
-                    type="email" 
-                    name="userEmail"
-                    value={newUser.userEmail}
-                    onChange={handleInputChange}
-                    placeholder="UserEmail" 
-                    required
-                />
-                <button>이메일 인증</button>
-            </div>
-            <div>
-                <input 
-                    type="password" 
-                    name="password"
-                    value={newUser.password}
-                    onChange={handleInputChange}
-                    placeholder="Password"
-                    required
-                />
-             </div>
-            <button onClick={handleAddUser}>가입하기</button>
-        </div>
-    );
-};
+    const itemhandleInputChange = (e) => {
+        const {item_num, value} =e.target;
+        setNewFreshItem((prevFreshitem) => ({...prevFreshitem, [item_num] : value}));
+    }
 
-export default RegistrationForm;
+    const handleAddFreshItem = async () => {
+        try {
+            const response = await axios.post(
+                'http://localhost:8282/productItem/add',
+                newFreshItem,
+                { withCredentials:true}
+            );
+            setfreshitems((prevFreshitem) => [...prevFreshitem, response.data]);
+            setNewFreshItem({
+                item_num : '',
+                item_name : '',
+                item_price : '',});
+        } catch (error) {
+            console.log('error:', error);
+        }
+    };
+
+    return (     
+        <Router>
+            <div>
+                <h1>물품 리스트</h1>
+                <ul>
+                    {freshitems.map((freshitem) => (
+                        <div>
+                        <li key={freshitem.item_num}>
+                            {freshitem.item_name} - {freshitem.item_price}원
+                            <div>
+                            <input
+                            type='text'
+                            name="item_num"
+                            value={freshitem.item_num}
+                            onChange={carthandleInputChange}
+                            />
+                            <button onClick={handleAddCartItem}>카트에 담기</button>
+                            </div>
+                            
+                        </li>
+                        
+                        </div>
+                    ))}
+                    <li>
+                        <a href ="/add">물품 추가하기</a>
+                    </li>
+                </ul>
+
+    
+                  
+           
+                
+            </div>
+
+            <div>
+                <h2>카트아이템 목록</h2>
+                <div>
+                    <label>카트 번호 : </label>
+                    <input 
+                        type='text'
+                        name="fresh_cartitem_num"
+                        value={newCartItem.fresh_cartitem_num}
+                        onChange={carthandleInputChange}
+                    />
+                </div>
+                <div>
+                    <label>아이템 갯수 :</label>
+                    <input 
+                        type='text'
+                        name="item_count"
+                        value={newCartItem.item_count}
+                        onChange={carthandleInputChange}
+                    />
+                </div>
+                <div>
+                    <label>아이템 번호 :</label>
+                    <input 
+                        type='text'
+                        name="item_num"
+                        value={newCartItem.item_num}
+                        onChange={carthandleInputChange}
+                    />
+                </div>
+                <div>
+                    <label>아이템 번호 :</label>
+                    <input 
+                        type='text'
+                        name="res_num"
+                        value={newCartItem.res_num}
+                        onChange={carthandleInputChange}
+                    />
+                </div>
+            </div>
+
+            <div>
+                <h1>카트 물품 리스트</h1>
+                <ul>
+                    {cartItems.map((cartItem) => (
+                        <li key= {cartItem.res_num}>
+                            {cartItem.item_name} - {cartItem.item_price}
+                        </li>
+                    ))}
+                    <li>
+                        <Link to ="/add">장바구니 추가</Link>
+                    </li>
+                </ul>
+
+                <Routes>
+                    
+                    <Route path="/list" element={<h1>카트 리스트</h1>}></Route>
+                </Routes>
+            </div>
+        </Router>
+    )
+}
+
+export default App;

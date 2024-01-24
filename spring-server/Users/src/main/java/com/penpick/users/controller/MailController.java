@@ -26,13 +26,6 @@ public class MailController {
     @PostMapping("/mail")
     public String mailSend(@RequestBody Map<String, String> requestBody){
     	
-//    	// MailService 객체 생성
-//    	MailService mailService = new MailService(javaMailSender);
-//         
-//    	int number = mailService.sendMail(mail);
-//    	String num = "" + number;
-//    	return num;
-    	
     	String mail = requestBody.get("mail");
         // MailService 객체 생성 시 javaMailSender를 주입하지 않아도 됨
         int number = mailService.sendMail(mail);

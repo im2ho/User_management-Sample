@@ -9,12 +9,8 @@ import lombok.Builder;
 @Data
 public class KakaoLoginDTO {
    
-	private String accessToken;
-	private String nickname;
+	private String access_token;
 	private String email;
-	
-//	//add
-//	private String name;
-//	private String birthdate;
+	private String nickname;
 
 }
